@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Notepad</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="toolbar">
+    <button onclick="format('bold')"><b>B</b></button>
+    <button onclick="format('italic')"><i>I</i></button>
+    <button onclick="format('underline')"><u>U</u></button>
+    <select onchange="format('fontName', this.value)">
+      <option value="Arial">Arial</option>
+      <option value="Courier New">Courier</option>
+      <option value="Georgia">Georgia</option>
+      <option value="Verdana">Verdana</option>
+    </select>
+    <select onchange="format('fontSize', this.value)">
+      <option value="1">Small</option>
+      <option value="3" selected>Normal</option>
+      <option value="5">Large</option>
+      <option value="7">Huge</option>
+    </select>
+    <input type="color" onchange="format('foreColor', this.value)">
+    <input type="color" onchange="format('hiliteColor', this.value)">
+    <button onclick="format('justifyLeft')">Left</button>
+    <button onclick="format('justifyCenter')">Center</button>
+    <button onclick="format('justifyRight')">Right</button>
+    <button onclick="format('justifyFull')">Justify</button>
+    <button onclick="format('removeFormat')">Clear</button>
+  </div>
+
+  <div class="actions">
+    <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    <button onclick="printContent()">🖨️ Print</button>
+    <button onclick="downloadContent()">⬇️ Download</button>
+    <!-- New button for showing shortcuts -->
+    <button onclick="toggleShortcuts()">💡 Shortcuts</button>
+  </div>
+
+  <!-- Shortcut keys popup -->
+  <div id="shortcut-popup" class="shortcut-popup">
+    <h3>Keyboard Shortcuts:</h3>
+    <ul>
+      <li><strong>Ctrl + B:</strong> Bold</li>
+      <li><strong>Ctrl + I:</strong> Italic</li>
+      <li><strong>Ctrl + U:</strong> Underline</li>
+      <li><strong>Ctrl + L:</strong> Left Align</li>
+      <li><strong>Ctrl + E:</strong> Center Align</li>
+      <li><strong>Ctrl + R:</strong> Right Align</li>
+      <li><strong>Ctrl + J:</strong> Justify</li>
+    </ul>
+    <button onclick="toggleShortcuts()">Close</button>
+  </div>
+
+  <div id="editor" contenteditable="true" class="editor">
+    Type your text here...
+  </div>
+
+  <div id="action-toast" class="action-toast"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
