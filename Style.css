@@ -1,29 +1,36 @@
-/* GENERAL */
-body {
+/* === GENERAL STYLES === */
+* {
+    transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  }
+  
+  body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(to right, #dfe9f3, #ffffff);
+    background: linear-gradient(to right, #f2f4f8, #ffffff);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: background 0.5s ease;
+    color: #333;
   }
   
-  /* TOOLBAR */
+  /* === TOOLBAR === */
   .toolbar {
-    background: #ffffff;
-    padding: 15px 10px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200, 200, 200, 0.3);
+    border-radius: 0 0 12px 12px;
+    padding: 12px 20px;
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 10;
-    transition: background 0.5s ease, box-shadow 0.5s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   }
   
   .toolbar-group {
@@ -31,39 +38,41 @@ body {
     gap: 10px;
   }
   
+  /* === BUTTONS & INPUTS === */
   .toolbar button,
   .toolbar select,
-  .toolbar input[type="color"] {
-    background: #ffffff;
-    border: 2px solid #3498db;
-    border-radius: 12px;
+  .toolbar input[type="color"],
+  .actions button {
+    background: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 10px;
     padding: 8px 16px;
     font-size: 14px;
-    font-weight: bold;
-    color: #3498db;
+    color: #333;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 5px 0 #2980b9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     outline: none;
   }
   
   .toolbar button:hover,
   .toolbar select:hover,
-  .toolbar input[type="color"]:hover {
-    background: #3498db;
-    color: #ffffff;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 15px rgba(52, 152, 219, 0.4);
+  .toolbar input[type="color"]:hover,
+  .actions button:hover {
+    background: #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
   }
   
   .toolbar button:active,
   .toolbar select:active,
-  .toolbar input[type="color"]:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  .toolbar input[type="color"]:active,
+  .actions button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
   
-  /* EDITOR */
+  /* === EDITOR === */
   .editor {
     flex: 1;
     background: #ffffff;
@@ -78,64 +87,32 @@ body {
     line-height: 1.6;
     outline: none;
     overflow-y: auto;
-    transition: box-shadow 0.3s ease, background 0.5s ease, color 0.5s ease;
   }
   
   .editor:hover {
     box-shadow: 0 14px 40px rgba(0, 0, 0, 0.25);
   }
   
-  /* DARK MODE */
-  body.dark-mode {
-    background: linear-gradient(to right, #2c3e50, #4ca1af);
-    color: white;
+  /* === ACTIONS SECTION === */
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
   }
   
-  .dark-mode .toolbar {
-    background: #34495e;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-  }
-  
-  .dark-mode .toolbar button,
-  .dark-mode .toolbar select,
-  .dark-mode .toolbar input[type="color"] {
-    background: #34495e;
-    border: 2px solid #1abc9c;
-    color: #1abc9c;
-    box-shadow: 0 5px 0 #16a085;
-  }
-  
-  .dark-mode .toolbar button:hover,
-  .dark-mode .toolbar select:hover,
-  .dark-mode .toolbar input[type="color"]:hover {
-    background: #1abc9c;
-    color: #ffffff;
-    box-shadow: 0 8px 15px rgba(26, 188, 156, 0.4);
-  }
-  
-  .dark-editor {
-    background: #2c3e50;
-    color: #ecf0f1;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-  }
-  
-  .dark-editor:hover {
-    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8);
-  }
-  
-  /* TOAST */
+  /* === TOAST === */
   .action-toast {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background: #3498db;
+    background: #2980b9;
     color: white;
     padding: 10px 20px;
     border-radius: 50px;
     font-weight: bold;
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.5s ease, opacity 0.5s ease;
     pointer-events: none;
     z-index: 9999;
   }
@@ -145,94 +122,7 @@ body {
     transform: translateY(0);
   }
   
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    .toolbar {
-      flex-direction: column;
-      gap: 15px;
-    }
-  
-    .editor {
-      width: 95%;
-      padding: 20px;
-    }
-  }
-  /* Styling for the action buttons */
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .actions button {
-    background: #ffffff;
-    border: 2px solid #3498db;
-    border-radius: 12px;
-    padding: 10px 15px;
-    font-size: 16px;
-    color: #3498db;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 0 #2980b9;
-  }
-  
-  .actions button:hover {
-    background: #3498db;
-    color: #ffffff;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 12px rgba(52, 152, 219, 0.3);
-  }
-  
-  .actions button:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Adjust the layout in dark mode */
-  body.dark-mode .actions button {
-    background: #34495e;
-    border: 2px solid #1abc9c;
-    color: #1abc9c;
-    box-shadow: 0 5px 0 #16a085;
-  }
-  
-  body.dark-mode .actions button:hover {
-    background: #1abc9c;
-    color: #ffffff;
-    box-shadow: 0 8px 12px rgba(26, 188, 156, 0.4);
-  }
-  /* Styling for the action buttons */
-.actions {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .actions button {
-    background: #ffffff;
-    border: 2px solid #3498db;
-    border-radius: 12px;
-    padding: 10px 15px;
-    font-size: 16px;
-    color: #3498db;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 0 #2980b9;
-  }
-  
-  .actions button:hover {
-    background: #3498db;
-    color: #ffffff;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 12px rgba(52, 152, 219, 0.3);
-  }
-  
-  .actions button:active {
-    transform: translateY(2px);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Shortcut popup styling */
+  /* === SHORTCUT POPUP === */
   .shortcut-popup {
     position: fixed;
     top: 50%;
@@ -276,13 +166,68 @@ body {
     background: #c0392b;
   }
   
-  /* Dark Mode adjustments */
-  body.dark-mode .shortcut-popup {
-    background-color: #34495e;
+  /* === DARK MODE === */
+  body.dark-mode {
+    background: linear-gradient(to right, #1e272e, #2f3640);
+    color: #f5f6fa;
+  }
+  
+  body.dark-mode .toolbar {
+    background: rgba(44, 62, 80, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  body.dark-mode .toolbar button,
+  body.dark-mode .toolbar select,
+  body.dark-mode .toolbar input[type="color"],
+  body.dark-mode .actions button {
+    background: rgba(52, 73, 94, 0.9);
+    border: 1px solid #7f8c8d;
     color: #ecf0f1;
   }
   
+  body.dark-mode .toolbar button:hover,
+  body.dark-mode .toolbar select:hover,
+  body.dark-mode .toolbar input[type="color"]:hover,
+  body.dark-mode .actions button:hover {
+    background: #1abc9c;
+    color: #fff;
+  }
+  
+  body.dark-mode .editor {
+    background: #2f3640;
+    color: #f5f6fa;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  }
+  
+  body.dark-mode .editor:hover {
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8);
+  }
+  
+  body.dark-mode .shortcut-popup {
+    background-color: #2f3640;
+    color: #f5f6fa;
+  }
+  
   body.dark-mode .shortcut-popup button {
-    background: #16a085;
+    background: #00a8ff;
+    color: #ffffff;
+  }
+  
+  body.dark-mode .shortcut-popup button:hover {
+    background: #0097e6;
+  }
+  
+  /* === RESPONSIVE === */
+  @media (max-width: 768px) {
+    .toolbar {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .editor {
+      width: 95%;
+      padding: 20px;
+    }
   }
   

@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web Notepad</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <!-- Toolbar for text formatting -->
   <div class="toolbar">
     <button onclick="format('bold')"><b>B</b></button>
     <button onclick="format('italic')"><i>I</i></button>
@@ -31,16 +35,16 @@
     <button onclick="format('removeFormat')">Clear</button>
   </div>
 
+  <!-- Actions: Dark mode, Print, Download, Shortcuts -->
   <div class="actions">
     <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
     <button onclick="printContent()">🖨️ Print</button>
     <button onclick="downloadContent()">⬇️ Download</button>
-    <!-- New button for showing shortcuts -->
     <button onclick="toggleShortcuts()">💡 Shortcuts</button>
   </div>
 
   <!-- Shortcut keys popup -->
-  <div id="shortcut-popup" class="shortcut-popup">
+  <div id="shortcut-popup" class="shortcut-popup" style="display: none;">
     <h3>Keyboard Shortcuts:</h3>
     <ul>
       <li><strong>Ctrl + B:</strong> Bold</li>
@@ -54,12 +58,15 @@
     <button onclick="toggleShortcuts()">Close</button>
   </div>
 
+  <!-- Text editor area -->
   <div id="editor" contenteditable="true" class="editor">
     Type your text here...
   </div>
 
+  <!-- Toast notification -->
   <div id="action-toast" class="action-toast"></div>
 
   <script src="script.js"></script>
 </body>
+
 </html>
