@@ -1,120 +1,155 @@
-// Rich Text Formatter Function
-function format(command, value = null) {
-    try {
-        // Apply the formatting command (bold, italic, etc.) to the editor.
-        document.execCommand(command, false, value);
-        showToast(`${command} applied`);
-    } catch (err) {
-        console.log(`Error applying ${command}:`, err);
-    }
-}
-
-// Dark Mode Toggle Function
+// Toggle Dark Mode
 function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    document.getElementById('editor').classList.toggle('dark-editor');
-    showToast('Dark mode toggled');
+  document.body.classList.toggle("dark-mode");
 }
 
-// Print Function
+// Print the document content
 function printContent() {
-    const content = document.getElementById('editor').innerHTML;
-    const printWindow = window.open('', '', 'height=400,width=600');
-    printWindow.document.write('<html><head><title>Print</title></head><body>');
-    printWindow.document.write(content);
-    printWindow.document.write('</body></html>');
-    printWindow.document.close();
-    printWindow.print();
-    showToast('Printed');
+  const content = document.querySelector(".editor").innerHTML;
+  const printWindow = window.open("", "", "height=600,width=800");
+  printWindow.document.write("<html><head><title>Print</title></head><body>");
+  printWindow.document.write(content);
+  printWindow.document.write("</body></html>");
+  printWindow.document.close();
+  printWindow.print();
 }
 
-// Download Function (as HTML file)
+// Download the text content as a .txt file
 function downloadContent() {
-    const content = document.getElementById('editor').innerHTML;
-    const blob = new Blob([content], { type: 'text/html' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'document.html';
-    link.click();
-    showToast('Downloaded');
+  const content = document.querySelector(".editor").innerText;
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "sufinotepad.txt";
+  link.click();
 }
 
-// Show Toast Notification
-function showToast(message) {
-    const toast = document.getElementById('action-toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2000);
-}
-
-// Handle the Shortcut Popup
+// Toggle the shortcut keys popup
 function toggleShortcuts() {
-    const popup = document.getElementById("shortcut-popup");
-    popup.style.display = popup.style.display === "none" || popup.style.display === "" ? "block" : "none";
+  const popup = document.getElementById("shortcut-popup");
+  popup.style.display = popup.style.display === "none" ? "block" : "none";
 }
 
-// Keyboard Shortcuts Functionality
-document.addEventListener('keydown', function (event) {
-    if (event.ctrlKey || event.metaKey) { // Checking for Ctrl or Command (Mac)
-        switch (event.key) {
-            case 'b': // Bold
-                event.preventDefault();
-                format('bold');
-                break;
-            case 'i': // Italic
-                event.preventDefault();
-                format('italic');
-                break;
-            case 'u': // Underline
-                event.preventDefault();
-                format('underline');
-                break;
-            case 'l': // Left Align
-                event.preventDefault();
-                format('justifyLeft');
-                break;
-            case 'e': // Center Align
-                event.preventDefault();
-                format('justifyCenter');
-                break;
-            case 'r': // Right Align
-                event.preventDefault();
-                format('justifyRight');
-                break;
-            case 'j': // Justify
-                event.preventDefault();
-                format('justifyFull');
-                break;
-        }
-    }
-});
-
-// Placeholder text handling in the editor
-const editor = document.getElementById('editor');
-const placeholderText = 'Type your text here...';
-
-// Set placeholder text initially if editor is empty
-if (!editor.innerHTML.trim()) {
-    editor.innerHTML = placeholderText;
+// Insert image into the editor
+function insertImage() {
+  const url = prompt("Enter image URL:");
+  if (url) {
+    document.execCommand("insertImage", false, url);
+  }
 }
 
-// Clear placeholder text on focus
-editor.addEventListener('focus', function () {
-    if (editor.innerHTML.trim() === placeholderText) {
-        editor.innerHTML = '';
+// Handle keyboard shortcuts
+document.addEventListener("keydown", function (event) {
+  if (event.ctrlKey || event.metaKey) {
+    switch (event.key) {
+      case "b": // Bold
+        document.execCommand("bold");
+        event.preventDefault();
+        break;
+      case "i": // Italic
+        document.execCommand("italic");
+        event.preventDefault();
+        break;
+      case "u": // Underline
+        document.execCommand("underline");
+        event.preventDefault();
+        break;
+      case "l": // Left Align
+        document.execCommand("justifyLeft");
+        event.preventDefault();
+        break;
+      case "e": // Center Align
+        document.execCommand("justifyCenter");
+        event.preventDefault();
+        break;
+      case "r": // Right Align
+        document.execCommand("justifyRight");
+        event.preventDefault();
+        break;
+      case "j": // Justify
+        document.execCommand("justifyFull");
+        event.preventDefault();
+        break;
+      case "s": // Save shortcut (download content)
+        downloadContent();
+        event.preventDefault();
+        break;
+      default:
+        break;
     }
+  }
 });
 
-// Add back placeholder text if editor is empty on blur
-editor.addEventListener('blur', function () {
-    if (editor.innerHTML.trim() === '') {
-        editor.innerHTML = placeholderText;
-    }
+// Handle mouse clicks for buttons
+document.querySelectorAll(".toolbar button").forEach((button) => {
+  button.addEventListener("click", function () {
+    const command = button.getAttribute("onclick").match(/'(\w+)'/)[1];
+    document.execCommand(command);
+  });
 });
 
-// Prevent typing on initial placeholder (optional)
-editor.addEventListener('input', function () {
-    if (editor.innerHTML.trim() === placeholderText) {
-        editor.innerHTML = '';  // Clears placeholder when typing starts
+// Apply a font and size change to the editor
+function changeFont(fontName) {
+  document.execCommand("fontName", false, fontName);
+}
+
+function changeFontSize(fontSize) {
+  document.execCommand("fontSize", false, fontSize);
+}
+
+// Update the toolbar and editor based on the changes
+document.querySelectorAll("select").forEach((select) => {
+  select.addEventListener("change", function () {
+    if (select.name === "font") {
+      changeFont(select.value);
+    } else if (select.name === "size") {
+      changeFontSize(select.value);
     }
+  });
+});
+
+// Clear formatting
+document.querySelector("[title='Clear Formatting']").addEventListener("click", function () {
+  document.execCommand("removeFormat");
+});
+
+// Handle the editor placeholder when it's empty
+document.querySelector(".editor").addEventListener("focus", function () {
+  if (this.innerHTML === "") {
+    this.innerHTML = "<br>";
+  }
+});
+
+document.querySelector(".editor").addEventListener("blur", function () {
+  if (this.innerHTML === "<br>") {
+    this.innerHTML = "";
+  }
+});
+
+// Handle color pickers for text and highlight color
+const textColorPicker = document.querySelector("[title='Text Color']");
+const highlightColorPicker = document.querySelector("[title='Highlight']");
+
+textColorPicker.addEventListener("input", function () {
+  document.execCommand("foreColor", false, this.value);
+});
+
+highlightColorPicker.addEventListener("input", function () {
+  document.execCommand("hiliteColor", false, this.value);
+});
+
+// Handle text alignment buttons
+document.querySelectorAll(".toolbar button[title^='Align']").forEach((button) => {
+  button.addEventListener("click", function () {
+    const alignCommand = button.getAttribute("onclick").match(/'(\w+)'/)[1];
+    document.execCommand(`justify${alignCommand}`);
+  });
+});
+
+// Handle list buttons
+document.querySelectorAll(".toolbar button[title^='List']").forEach((button) => {
+  button.addEventListener("click", function () {
+    const listCommand = button.getAttribute("onclick").match(/'(\w+)'/)[1];
+    document.execCommand(listCommand);
+  });
 });

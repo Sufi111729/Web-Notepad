@@ -2,69 +2,209 @@
 <html lang="en">
 
 <head>
-  <meta name="description" content="SufiNotepad - A simple and elegant online text editor">
-<meta name="keywords" content="sufinotepad, notepad, online editor, text editor">
-<meta name="author" content="Muhammad Sufiyan">
-<meta name="google-site-verification" content="MdZNHkAb4qM8oT4i6ABiKySojfySXZ2gXvlZroQK6DQ" />
-<title>SufiNotepad - Online Notepad by Sufiyan</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SufiNotepad - A simple and elegant online text editor for writing and formatting text quickly." />
+  <meta name="keywords" content="sufinotepad, notepad, online notepad, text editor, html editor, sufi notepad, sufiyaan" />
+  <meta name="author" content="Muhammad Sufiyan" />
+  <meta name="google-site-verification" content="MdZNHkAb4qM8oT4i6ABiKySojfySXZ2gXvlZroQK6DQ" />
+  <!-- Open Graph (Facebook/LinkedIn) -->
+  <meta property="og:title" content="SufiNotepad - Online Notepad by Sufiyan" />
+  <meta property="og:description" content="A clean, fast, and stylish online notepad built for quick writing and formatting." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sufinotepad.netlify.app/" />
+  <meta property="og:image" content="https://sufinotepad.netlify.app/social-share-image.png" />
+  <meta property="og:image:alt" content="SufiNotepad Logo" />
+  <meta property="og:site_name" content="SufiNotepad" />
+  <meta property="og:creator" content="https://www.linkedin.com/in/sufiyan2k1" />
 
-  <link rel="stylesheet" href="style.css">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="SufiNotepad" />
+  <meta name="twitter:description" content="An elegant online notepad by Muhammad Sufiyan." />
+  <meta name="twitter:image" content="https://sufinotepad.netlify.app/social-share-image.png" />
+  <meta name="twitter:image:alt" content="SufiNotepad Logo" />
+  <meta name="twitter:creator" content="https://www.linkedin.com/in/sufiyan2k1" />
+
+  <!-- Structured Data for Rich Snippets -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "SufiNotepad",
+      "url": "https://sufinotepad.netlify.app",
+      "applicationCategory": "Productivity",
+      "operatingSystem": "All",
+      "creator": {
+        "@type": "Person",
+        "name": "Muhammad Sufiyan",
+        "url": "https://sufiweb.netlify.app/"
+      }
+    }
+  </script>
+
+  <title>SufiNotepad - Online Notepad by Sufiyan</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+  <style>
+    .editor:empty:before {
+      content: attr(data-placeholder);
+      color: gray;
+      pointer-events: none;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- Toolbar for text formatting -->
-  <div class="toolbar">
-    <button onclick="format('bold')"><b>B</b></button>
-    <button onclick="format('italic')"><i>I</i></button>
-    <button onclick="format('underline')"><u>U</u></button>
-    <select onchange="format('fontName', this.value)">
-      <option value="Arial">Arial</option>
-      <option value="Courier New">Courier</option>
-      <option value="Georgia">Georgia</option>
-      <option value="Verdana">Verdana</option>
-    </select>
-    <select onchange="format('fontSize', this.value)">
-      <option value="1">Small</option>
-      <option value="3" selected>Normal</option>
-      <option value="5">Large</option>
-      <option value="7">Huge</option>
-    </select>
-    <input type="color" onchange="format('foreColor', this.value)">
-    <input type="color" onchange="format('hiliteColor', this.value)">
-    <button onclick="format('justifyLeft')">Left</button>
-    <button onclick="format('justifyCenter')">Center</button>
-    <button onclick="format('justifyRight')">Right</button>
-    <button onclick="format('justifyFull')">Justify</button>
-    <button onclick="format('removeFormat')">Clear</button>
-  </div>
 
-  <!-- Actions: Dark mode, Print, Download, Shortcuts -->
-  <div class="actions">
-    <button onclick="toggleDarkMode()">🌙 Dark Mode</button>
-    <button onclick="printContent()">🖨️ Print</button>
-    <button onclick="downloadContent()">⬇️ Download</button>
-    <button onclick="toggleShortcuts()">💡 Shortcuts</button>
-  </div>
+  <header>
+    <!-- Toolbar for text formatting -->
+    <div class="toolbar">
+      <button onclick="document.execCommand('bold')" title="Bold"><b>B</b></button>
+      <button onclick="document.execCommand('italic')" title="Italic"><i>I</i></button>
+      <button onclick="document.execCommand('underline')" title="Underline"><u>U</u></button>
+      <button onclick="document.execCommand('strikeThrough')" title="Strikethrough"><s>S</s></button>
+      <button onclick="document.execCommand('subscript')" title="Subscript">X<sub>2</sub></button>
+      <button onclick="document.execCommand('superscript')" title="Superscript">X<sup>2</sup></button>
 
-  <!-- Shortcut keys popup -->
-  <div id="shortcut-popup" class="shortcut-popup" style="display: none;">
-    <h3>Keyboard Shortcuts:</h3>
-    <ul>
-      <li><strong>Ctrl + B:</strong> Bold</li>
-      <li><strong>Ctrl + I:</strong> Italic</li>
-      <li><strong>Ctrl + U:</strong> Underline</li>
-      <li><strong>Ctrl + L:</strong> Left Align</li>
-      <li><strong>Ctrl + E:</strong> Center Align</li>
-      <li><strong>Ctrl + R:</strong> Right Align</li>
-      <li><strong>Ctrl + J:</strong> Justify</li>
-    </ul>
-    <button onclick="toggleShortcuts()">Close</button>
-  </div>
+      <select onchange="document.execCommand('fontName', false, this.value)" title="Font">
+        <option value="">Font</option>
+        <option value="Arial">Arial</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Tahoma">Tahoma</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
+        <option value="JetBrains Mono">JetBrains Mono</option>
+      </select>
 
-  <!-- Text editor area -->
-  <div id="editor" contenteditable="true" class="editor">
-    Type your text here...
-  </div>
+      <select onchange="document.execCommand('fontSize', false, this.value)" title="Size">
+        <option value="1">8pt</option>
+        <option value="2">10pt</option>
+        <option value="3" selected>12pt</option>
+        <option value="4">14pt</option>
+        <option value="5">18pt</option>
+        <option value="6">24pt</option>
+        <option value="7">36pt</option>
+      </select>
+
+      <input type="color" onchange="document.execCommand('foreColor', false, this.value)" title="Text Color">
+      <input type="color" onchange="document.execCommand('hiliteColor', false, this.value)" title="Highlight">
+
+      <button onclick="document.execCommand('justifyLeft')" title="Align Left">Left</button>
+      <button onclick="document.execCommand('justifyCenter')" title="Center">Center</button>
+      <button onclick="document.execCommand('justifyRight')" title="Right">Right</button>
+      <button onclick="document.execCommand('justifyFull')" title="Justify">Justify</button>
+
+      <button onclick="document.execCommand('insertUnorderedList')" title="Bullet List">• List</button>
+      <button onclick="document.execCommand('insertOrderedList')" title="Numbered List">1. List</button>
+      <button onclick="document.execCommand('outdent')" title="Outdent">Outdent</button>
+      <button onclick="document.execCommand('indent')" title="Indent">Indent</button>
+
+      <button onclick="insertImage()" title="Insert Image">🖼️</button>
+      <button onclick="document.execCommand('undo')" title="Undo">Undo</button>
+      <button onclick="document.execCommand('redo')" title="Redo">Redo</button>
+
+      <button onclick="document.execCommand('removeFormat')" title="Clear Formatting">Clear</button>
+    </div>
+
+    <!-- Inline JS only for image insert -->
+    <script>
+      function insertImage() {
+        var url = prompt("Enter image URL:");
+        if (url) {
+          document.execCommand("insertImage", false, url);
+        }
+      }
+    </script>
+  </header>
+
+  <main>
+    <!-- Actions: Dark mode, Print, Download, Shortcuts -->
+    <div class="actions">
+      <button onclick="toggleDarkMode()" title="Toggle Dark Mode">🌙 Dark Mode</button>
+      <button onclick="printContent()" title="Print the document">🖨️ Print</button>
+      <button onclick="downloadContent()" title="Download the text">⬇️ Download</button>
+      <button onclick="toggleShortcuts()" title="Show keyboard shortcuts">💡 Shortcuts</button>
+    </div>
+
+    <!-- Shortcut keys popup -->
+    <div id="shortcut-popup" class="shortcut-popup" style="display: none;">
+      <h3>Keyboard Shortcuts:</h3>
+      <ul>
+        <li><strong>Ctrl + B:</strong> Bold</li>
+        <li><strong>Ctrl + I:</strong> Italic</li>
+        <li><strong>Ctrl + U:</strong> Underline</li>
+        <li><strong>Ctrl + L:</strong> Left Align</li>
+        <li><strong>Ctrl + E:</strong> Center Align</li>
+        <li><strong>Ctrl + R:</strong> Right Align</li>
+        <li><strong>Ctrl + J:</strong> Justify</li>
+      </ul>
+      <button onclick="toggleShortcuts()">Close</button>
+    </div><br>
+
+    <div class="topbar">📝 SufiNotepad</div>
+
+    <div class="box">
+      <div class="editor" contenteditable="true" data-placeholder="Start typing here..."></div>
+    </div>
+
+    <!-- About the Creator Section -->
+    <div class="container">
+      <div class="about-creator">
+        <h2>About the Creator</h2>
+        <p>Hello! I'm <strong>Muhammad Sufiyan</strong>, a passionate Java Full Stack Developer and UI enthusiast.</p>
+        <p>Check out more of my projects at <a href="https://sufiweb.netlify.app/" target="_blank">sufiweb.netlify.app</a>.</p>
+      </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="container">
+      <div class="faq">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+          <h3>What is SufiNotepad?</h3>
+          <p>SufiNotepad is a clean, fast, and stylish online notepad created for users to take quick notes. It supports rich text editing with various formatting options.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Is my data saved?</h3>
+          <p>No, SufiNotepad is purely for local storage. All your notes are saved temporarily in the browser. Once you close the browser or refresh, your data will be lost unless you explicitly save it somewhere.</p>
+        </div>
+        <div class="faq-item">
+          <h3>Can I use SufiNotepad offline?</h3>
+          <p>Yes, since the app relies on local storage, it can be used offline without an internet connection.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-box">
+      <p class="footer-quote">
+        Face challenges as opportunities, much like SufiNotepad navigates innovation.
+        With determination and belief in your potential, every hurdle becomes a stepping stone to success.
+      </p>
+    
+      <div class="footer-content">
+        <div class="footer-contact">
+          <h4>Contact</h4>
+          <p>Uttar Pradesh, India</p>
+          <p><a href="mailto:sufi111729@gmail.com"><i class="fas fa-envelope"></i> sufi111729@gmail.com</a></p>
+    
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/sufiyan2k1" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="https://github.com/Sufi111729" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://twitter.com/yourhandle" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="https://instagram.com/sufiyan2k1" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+          </div>
+        </div>
+      </div>
+    
+      
+    </div>
+    
+  </main>
 
   <!-- Toast notification -->
   <div id="action-toast" class="action-toast"></div>
